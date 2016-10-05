@@ -36,6 +36,10 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #UX
 gem 'bootstrap-sass'
 
+group :development do
+ gem 'listen'
+end
+
 group :development, :test do
   # Makes pry the default Rails console
   gem 'pry-rails', '~> 0.3.4'
