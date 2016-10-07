@@ -7,7 +7,7 @@ RSpec.describe ExchangeRatesController, type: :routing do
     end
 
     it "routes to #calculate" do
-      expect(post: "/exchange_rates/calculate")
+      expect(get: "/exchange_rates/calculate")
         .to route_to("exchange_rates#calculate")
     end
   end

@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20161005044706) do
   enable_extension "plpgsql"
 
   create_table "exchange_rates", force: :cascade do |t|
-    t.string   "date"
+    t.date     "date"
     t.float    "rate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

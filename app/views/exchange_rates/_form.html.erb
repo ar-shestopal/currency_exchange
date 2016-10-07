@@ -1,22 +1,13 @@
-<%= form_for(exchange_rate) do |f| %>
-  <% if exchange_rate.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(exchange_rate.errors.count, "error") %> prohibited this exchange_rate from being saved:</h2>
-
-      <ul>
-      <% exchange_rate.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= form_tag(calculate_path, method: :get) do %>
+    <div id="error_expleanation">
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :date %>
-    <%= f.date_select :date %>
+  <div class="field inline">
+    <%= label_tag :date %>
+    <%= select_date(Date.current, options = {}, html_options = {}) %>
   </div>
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class="actions inline">
+    <%= submit_tag "Calculate" %>
   </div>
 <% end %>

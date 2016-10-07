@@ -5,9 +5,11 @@ class ExchangeRatesController < ApplicationController
     @exchange_rates = ExchangeRate.all
   end
 
-  private
-
-    def exchange_rate_params
-      params.require(:exchange_rate).permit(:date, :rate)
-    end
+  # GET /exchange_rates/calculate
+  def calculate
+    amount = params[:amount]
+    exchange_rate = RateFinder.find(params[:date])
+    @eur = Calculator.calculate_eur(amount, exchange_rate)
+    render 'index'
+  end
 end

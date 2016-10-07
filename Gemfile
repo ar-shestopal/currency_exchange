@@ -51,8 +51,9 @@ group :test do
   gem 'database_cleaner', '~> 1.4.1', require: false
   # Capybara driver for headless WebKit for testing Javascript
   gem 'capybara-webkit', '~> 1.6.0'
-  # Sends simplecov results to codeclimate.com
-  gem 'codeclimate-test-reporter', '~> 0.4.7', require: false
+  # Test controllers
+  gem 'rails-controller-testing'
+
 end
 
 group :development, :test do
