@@ -12,8 +12,9 @@ RSpec.describe "exchange_rates/index", type: :view do
     ])
   end
 
-  it "renders a list of exchange_rates" do
+  it "renders a form" do
     render
-    assert_select "tr>td", :text => 2.5.to_s, :count => 2
+
+    expect(rendered).to have_selector('form')
   end
 end

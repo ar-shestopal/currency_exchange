@@ -37,7 +37,22 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'bootstrap-sass'
 
 group :development do
- gem 'listen'
+  gem 'listen'
+end
+
+group :test do
+  # Rails rspec matchers
+  gem 'shoulda-matchers', '~> 2.8.0'
+  # Generate test coverage statistics
+  gem 'simplecov', '~> 0.10.0', require: false
+  # Integration testing
+  gem 'capybara', '~> 2.4.4'
+  # Ensure a clean state for testing
+  gem 'database_cleaner', '~> 1.4.1', require: false
+  # Capybara driver for headless WebKit for testing Javascript
+  gem 'capybara-webkit', '~> 1.6.0'
+  # Sends simplecov results to codeclimate.com
+  gem 'codeclimate-test-reporter', '~> 0.4.7', require: false
 end
 
 group :development, :test do
