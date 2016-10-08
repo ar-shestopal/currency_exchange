@@ -8,7 +8,7 @@ RSpec.describe RateFinder, type: :model do
     it 'should find exchange rate by year, month, day' do
       date_params = { year: date.year, month: date.month, day: date.day }
 
-      expect(RateFinder.find(date_params)).to eq rate
+      expect(RateFinder.find(date_params)).to eq exchange_rate
     end
   end
 end

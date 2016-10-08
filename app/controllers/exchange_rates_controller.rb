@@ -1,4 +1,5 @@
 class ExchangeRatesController < ApplicationController
+  before_filter :set_latest_rate
 
   # GET /exchange_rates
   def index
@@ -7,9 +8,22 @@ class ExchangeRatesController < ApplicationController
 
   # GET /exchange_rates/calculate
   def calculate
-    amount = params[:amount]
     exchange_rate = RateFinder.find(params[:date])
-    @eur = Calculator.calculate_eur(amount, exchange_rate)
-    render 'index'
+
+    if exchange_rate
+      @eur = Calculator.calculate_eur(params[:amount], exchange_rate)
+      render 'index'
+    else
+      flash.now[:error] = "No exchange rate found for a given date"
+      render 'index'
+    end
+  end
+
+  private
+
+  # Somehow rspec views spec sees ExchangeRate.first.date as string and trow an
+  # error, meanwhile on the view this date is a date object
+  def set_latest_rate
+    @latest_rate = Date.parse(ExchangeRate.first.date.to_s)
   end
 end

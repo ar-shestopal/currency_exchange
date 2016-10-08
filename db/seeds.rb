@@ -5,3 +5,9 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+#
+#
+#
+file = Rails.root.join('lib', 'assets', 'exchange_rates.csv')
+data = Import::CsvParser.new(file).parse
+Import::Importer.import(data)

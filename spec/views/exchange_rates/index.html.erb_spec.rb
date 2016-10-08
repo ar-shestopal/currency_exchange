@@ -2,14 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "exchange_rates/index", type: :view do
   before(:each) do
-    assign(:exchange_rates, [
-      ExchangeRate.create!(
-        :rate => 2.5
-      ),
-      ExchangeRate.create!(
-        :rate => 2.5
-      )
-    ])
+    FactoryGirl.create(:exchange_rate, date: Date.today)
   end
 
   it "renders a form" do

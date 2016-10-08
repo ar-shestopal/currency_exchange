@@ -1,8 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<h3>EUR/USD Currency exchange calculator</h3>
+<h3>USD/EUR Currency exchange calculator</h3>
 
-<div><%= render 'form', exchange_rate: ExchangeRate.new %></div>
+<div><%= render 'form' %></div>
 </br>
 </hr>
-<div id="result"></div>
+<% if @eur %>
+  <div id="result">Calcualted amount in EUR <%= @eur %></div>
+<% end %>
