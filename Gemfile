@@ -46,11 +46,11 @@ group :test do
   # Generate test coverage statistics
   gem 'simplecov', '~> 0.10.0', require: false
   # Integration testing
-  gem 'capybara', '~> 2.4.4'
+  gem 'capybara', '~> 2.7.1'
   # Ensure a clean state for testing
   gem 'database_cleaner', '~> 1.4.1', require: false
   # Capybara driver for headless WebKit for testing Javascript
-  gem 'capybara-webkit', '~> 1.6.0'
+  gem 'capybara-webkit', '~> 1.11.1'
   # Test controllers
   gem 'rails-controller-testing'
 

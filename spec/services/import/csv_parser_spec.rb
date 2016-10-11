@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'csv'
 
 RSpec.describe Import::CsvParser, type: :model do
-  describe "#parse" do
+  describe '#parse' do
     let(:headers) { "Data Source in SDW, \r\n" }
     let(:rows)    { ["Collection:,Average of observations through period\r\n2015-10-20,1.0887\r\n2015-10-19,1.0926"] }
     let(:io) do
@@ -13,9 +13,9 @@ RSpec.describe Import::CsvParser, type: :model do
       end
     end
 
-    it "should return data to import" do
-      expect(File).to receive(:open).with("filename", {:universal_newline=>false}) { io }
-      result = Import::CsvParser.new("filename").parse
+    it 'should return data to import' do
+      expect(File).to receive(:open).with('filename', {:universal_newline=>false}) { io }
+      result = Import::CsvParser.new('filename').parse
       expect(result).to eq ["('2015-10-20', '1.0887', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
                             "('2015-10-19', '1.0926', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
                             "('2015-10-18', '1.0926', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",

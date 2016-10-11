@@ -5,33 +5,33 @@ RSpec.describe ExchangeRatesController, type: :controller do
     FactoryGirl.create(:exchange_rate, date: Date.yesterday )
   end
 
-  describe "GET #index" do
-   it "renders the index template" do
+  describe 'GET #index' do
+   it 'renders the index template' do
       get :index
-      expect(response).to render_template("index")
+      expect(response).to render_template('index')
     end
   end
 
-  describe "GET #calculate" do
+  describe 'GET #calculate' do
     let!(:date) { Date.today }
 
-    context "#render" do
-      it "renders index template" do
+    context '#render' do
+      it 'renders index template' do
         get :calculate, date: { year: date.year,
                                 month: date.month,
                                 day: date.day }, amount: 100
 
-        expect(response).to render_template("index")
+        expect(response).to render_template('index')
       end
     end
 
-    context "#with exchange rate" do
+    context '#with exchange rate' do
       let!(:date) { Date.today }
       let!(:rate) { 2.0 }
       let!(:exchange_rate) { FactoryGirl.create(:exchange_rate, date: date,
                                                                 rate: rate) }
 
-      it "calsulates amount in euro by date" do
+      it 'calculates amount in euro by date' do
         get :calculate, date: { year: date.year,
                                 month: date.month,
                                 day: date.day }, amount: 100
@@ -40,13 +40,13 @@ RSpec.describe ExchangeRatesController, type: :controller do
       end
     end
 
-    context "#exchange rate not found" do
-      it "calsulates amount in euro by date" do
+    context '#exchange rate not found' do
+      it 'calculates amount in euro by date' do
         get :calculate, date: { year: date.year,
                                 month: date.month,
                                 day: date.day }, amount: 100
 
-        expect(flash[:error]).to eq "No exchange rate found for a given date"
+        expect(flash[:error]).to eq 'No exchange rate found for a given date'
       end
     end
   end
