@@ -33,7 +33,7 @@ module Import
     end
 
     def write_to_result(date, rate_str)
-      @result << "('#{date}', '#{rate_str}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)"
+      @result << "('#{date}', '#{rate_str}')"
     end
 
     def write_holidays_to_result(date, rate_str)

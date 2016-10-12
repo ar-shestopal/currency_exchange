@@ -5,8 +5,44 @@ module Import
         puts "Empty dataset - #{data.inspect}"
         return
       end
-      sql = "INSERT INTO exchange_rates (date, rate, created_at, updated_at)"\
-            " VALUES #{data.join(',')};"
+
+      sql = <<-SQL
+        BEGIN;
+
+        CREATE TEMPORARY TABLE newvals(new_date date, rate double precision)
+        ON COMMIT DROP;
+
+        INSERT INTO newvals(new_date, rate) VALUES #{data.join(',')};
+
+        LOCK TABLE exchange_rates IN EXCLUSIVE MODE;
+
+        UPDATE exchange_rates
+        SET date = newvals.new_date,
+            rate = newvals.rate,
+            created_at = CURRENT_TIMESTAMP::timestamp without time zone,
+            updated_at = CURRENT_TIMESTAMP::timestamp without time zone
+        FROM newvals
+        WHERE newvals.new_date::date = exchange_rates.date::date;
+
+        INSERT INTO exchange_rates
+          (
+              date,
+              rate,
+              created_at,
+              updated_at
+          )
+        SELECT newvals.new_date,
+               newvals.rate,
+               CURRENT_TIMESTAMP::timestamp without time zone,
+               CURRENT_TIMESTAMP::timestamp without time zone
+
+        FROM newvals
+        LEFT OUTER JOIN exchange_rates
+        ON (exchange_rates.date::date = newvals.new_date::date)
+        WHERE exchange_rates.date IS NULL;
+
+        COMMIT;
+      SQL
 
       begin
         ActiveRecord::Base.connection.execute(sql)
@@ -18,53 +54,3 @@ module Import
 end
 
 
-sql = <<-SQL
-      BEGIN;
-
-      CREATE TEMPORARY TABLE  newvals(date date,
-                              rate double precision,
-                              created_at timestamp without time zone,
-                              updated_at timestamp without time zone)
-      ON COMMIT
-      DROP;
-
-      INSERT INTO newvals(date, rate, created_at, updated_at) VALUES #{data};
-
-      LOCK TABLE clients IN EXCLUSIVE MODE;
-
-      UPDATE exchange_rates
-      SET date = newvals.date,
-          created_at = CURRENT_TIMESTAMP::timestamp without time zone,
-          updated_at = CURRENT_TIMESTAMP::timestamp without time zone,
-      FROM newvals
-      WHERE newvals.id = clients.id;
-
-      INSERT INTO clients
-        (
-          id,
-          abbreviation,
-          name,
-          created_at,
-          updated_at,
-          contact_email,
-          contact_phone,
-          scoring_contact_name,
-          general_notes,
-          deleted_at
-        )
-      SELECT newvals.id,
-             newvals.abbreviation,
-             newvals.name,
-             newvals.created_at,
-             newvals.updated_at,
-             newvals.contact_email,
-             newvals.contact_phone,
-             newvals.scoring_contact_name,
-             newvals.general_notes,
-             newvals.deleted_at
-      FROM newvals
-      LEFT OUTER JOIN clients ON (clients.id = newvals.id)
-      WHERE clients.id IS NULL;
-
-      COMMIT;
-SQL

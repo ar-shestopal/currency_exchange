@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20161005044706) do
     t.float    "rate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["date"], name: "index_exchange_rates_on_date", using: :btree
+    t.index ["date"], name: "index_exchange_rates_on_date", unique: true, using: :btree
     t.index ["rate"], name: "index_exchange_rates_on_rate", using: :btree
   end
 
